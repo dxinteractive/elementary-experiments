@@ -8,7 +8,8 @@
     "build-gh-pages": "tsc && vite build --base=/elementary-experiments/ --mode=deployed",
     "preview": "vite preview",
     "pretty": "yarn prettier --write .",
-    "lint": "yarn eslint src"
+    "lint": "yarn eslint src",
+    "prep": "yarn"
   },
   "dependencies": {
     "@elemaudio/core": "^1.0.8",
