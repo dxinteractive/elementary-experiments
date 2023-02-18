@@ -1,7 +1,7 @@
 import type { DspDefinition } from "../types";
 
 function component(liveAudioContext: AudioContext) {
-  const handleClick = () => playSounds(liveAudioContext);
+  const handleClick = () => liveAudioContext;
   return <div onClick={handleClick}>click here to hear loud things</div>;
 }
 
