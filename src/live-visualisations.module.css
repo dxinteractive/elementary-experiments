@@ -1,0 +1,15 @@
+.oscopePanel {
+  user-select: none;
+}
+
+.oscopePanel:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.oscope {
+  float: left;
+  margin-right: 1rem;
+  margin-bottom: .5rem;
+}
