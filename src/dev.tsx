@@ -8,6 +8,7 @@ import { useDspComponent } from "./dsp-component";
 import { all } from "./dsp-definitions/all";
 import { PlotPanel } from "./offline-visualisations";
 import { useWindowSize } from "./use-window-size";
+import { touchStart } from "mosfez-faust/touch-start";
 
 import {
   HashRouter,
@@ -20,7 +21,7 @@ import {
 import { DspDefinition } from "./types";
 
 const liveAudioContext = new AudioContext();
-// touchStart(liveAudioContext);
+touchStart(liveAudioContext);
 
 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 ReactDOM.createRoot(document.getElementById("root")!).render(
