@@ -25,7 +25,7 @@ type PlotPanelProps = {
 };
 
 export function PlotPanel(props: PlotPanelProps) {
-  const { name, offlineResult, width, height, liveAudioContext } = props;
+  const { offlineResult, width, height } = props;
 
   const [[pan, zoomWidth, highlight], setPlotState] = useState([0, 8, -1]);
 

@@ -6,7 +6,9 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "build-gh-pages": "tsc && vite build --base=/elementary-experiments/ --mode=deployed",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "pretty": "yarn prettier --write .",
+    "lint": "yarn eslint src"
   },
   "dependencies": {
     "@elemaudio/core": "^1.0.8",

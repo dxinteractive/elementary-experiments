@@ -1,11 +1,11 @@
-import type { DspDefinition, RenderResults } from "../types";
+import type { DspDefinition } from "../types";
 
 import { el } from "@elemaudio/core";
 import WebRenderer from "@elemaudio/web-renderer";
 
 async function callback(
-  liveAudioContext: AudioContext,
-  _renderResults: RenderResults
+  liveAudioContext: AudioContext
+  // _renderResults: RenderResults
 ) {
   const core = new WebRenderer();
 
@@ -13,7 +13,7 @@ async function callback(
     core.render(el.cycle(440), el.cycle(441));
   });
 
-  let node = await core.initialize(liveAudioContext, {
+  const node = await core.initialize(liveAudioContext, {
     numberOfInputs: 0,
     numberOfOutputs: 1,
     outputChannelCount: [2],
