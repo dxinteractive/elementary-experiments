@@ -1,5 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import classes from "./offline-visualisations.module.css";
+import { downloadWav, toAudioBuffer } from "mosfez-faust/convert";
+import { playBuffer } from "mosfez-faust/play";
 import normalizeWheel from "normalize-wheel";
 
 // pan, zoom, highlight
@@ -25,7 +27,7 @@ type PlotPanelProps = {
 };
 
 export function PlotPanel(props: PlotPanelProps) {
-  const { offlineResult, width, height } = props;
+  const { name, offlineResult, width, height, liveAudioContext } = props;
 
   const [[pan, zoomWidth, highlight], setPlotState] = useState([0, 8, -1]);
 
@@ -57,14 +59,17 @@ export function PlotPanel(props: PlotPanelProps) {
 
         const handlePlay = async (e: React.MouseEvent<HTMLAnchorElement>) => {
           e.preventDefault();
-          // TODO
+          playBuffer(
+            await toAudioBuffer(output.output, liveAudioContext),
+            liveAudioContext
+          );
         };
 
         const handleDownload = (e: React.MouseEvent<HTMLAnchorElement>) => {
           e.preventDefault();
-          // const nameCleaned = name.replace(/ /g, "-").toLowerCase();
-          // const filename = `${nameCleaned}-${output.name}`;
-          // downloadWav(output.output, liveAudioContext, filename);
+          const nameCleaned = name.replace(/ /g, "-").toLowerCase();
+          const filename = `${nameCleaned}-${output.name}`;
+          downloadWav(output.output, liveAudioContext, filename);
         };
 
         return (

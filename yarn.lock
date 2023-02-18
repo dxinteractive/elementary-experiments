@@ -1574,6 +1574,11 @@ minimatch@^3.0.4, minimatch@^3.1.1, minimatch@^3.1.2:
   dependencies:
     brace-expansion "^1.1.7"
 
+mosfez-faust@^0.0.22:
+  version "0.0.22"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/mosfez-faust/-/mosfez-faust-0.0.22.tgz#330e4fca254270a6d5348122642cfc1c7ac9a64e"
+  integrity sha512-pPPi5oyHhUACo9k+NkkPypaJ6lOzkHFlCXjD4OV5F2j20e6+btnRtKPfLQAKAapE5hdd8XgPVh5t/1OFhsi2Ig==
+
 ms@2.1.2:
   version "2.1.2"
   resolved "https://registry.yarnpkg.com/ms/-/ms-2.1.2.tgz#d09d1f357b443f493382a8eb3ccd183872ae6009"
