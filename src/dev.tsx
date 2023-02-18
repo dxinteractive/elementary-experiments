@@ -118,8 +118,9 @@ function DspRoute() {
 }
 
 const TYPE_DESCS = {
-  component: "follow instructions below",
-  callback: "JavaScript will be executed immediately, charts may appear below",
+  component: "follow instructions below. Click to start the audio context.",
+  callback:
+    "JavaScript will be executed immediately, charts may appear below. Click to start the audio context.",
 };
 
 type DspProps = {
