@@ -1,13 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import ReactDOM from "react-dom/client";
 import "./css/base.css";
 import classes from "./dev.module.css";
 
-import { useDspCallback } from "./dsp-callback";
-import { useDspComponent } from "./dsp-component";
 import { all } from "./dsp-definitions/all";
-import { PlotPanel } from "./offline-visualisations";
-import { useWindowSize } from "./use-window-size";
+import { Output, PlotPanel } from "./offline-visualisations";
+import { useWindowSize } from "./utils/use-window-size";
 import { touchStart } from "mosfez-faust/touch-start";
 
 import {
@@ -19,9 +17,12 @@ import {
   useParams,
 } from "react-router-dom";
 import { DspDefinition } from "./types";
+import { startElementary } from "./elementary-web-renderer";
 
 const liveAudioContext = new AudioContext();
 touchStart(liveAudioContext);
+
+startElementary(liveAudioContext);
 
 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 ReactDOM.createRoot(document.getElementById("root")!).render(
@@ -117,42 +118,33 @@ function DspRoute() {
   return <Dsp dspDefinition={dspDefinition} />;
 }
 
-const TYPE_DESCS = {
-  component: "follow instructions below. Click to start the audio context.",
-  callback:
-    "JavaScript will be executed immediately, charts may appear below. Click to start the audio context.",
-};
-
 type DspProps = {
   dspDefinition: DspDefinition;
 };
 
 function Dsp(props: DspProps) {
   const { dspDefinition } = props;
-  const { name, description } = dspDefinition;
+  const { name, description, Component } = dspDefinition;
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   const dsp = dspDefinition.dsp;
 
-  const dspResult = useDspCallback(dspDefinition, liveAudioContext);
-  const dspComponentResult = useDspComponent(dspDefinition, liveAudioContext);
-  const offlineResultToPlot = dspResult;
-  const { width } = useWindowSize();
+  const [offlineResultToPlot, setOfflineResultToPlot] = useState<Output[]>([]);
+  const renderResults = (results: Output[]) => {
+    setOfflineResultToPlot((res) => res.concat(results));
+  };
 
-  let desc = TYPE_DESCS[dspDefinition.type];
-  if (desc) {
-    desc = ` - ${desc}`;
-  }
+  const { width } = useWindowSize();
 
   return (
     <>
       <DspHeader>
         <strong>{name}</strong> - {description}
       </DspHeader>
-      <div className={classes.dspType}>
-        type: {dspDefinition.type}
-        {desc}
-      </div>
+      <Component
+        audioContext={liveAudioContext}
+        renderResults={renderResults}
+      />
       {offlineResultToPlot && offlineResultToPlot.length > 0 && (
         <div className={classes.dspContent}>
           <PlotPanel
@@ -163,9 +155,6 @@ function Dsp(props: DspProps) {
             liveAudioContext={liveAudioContext}
           />
         </div>
-      )}
-      {dspComponentResult && (
-        <div className={classes.dspContent}>{dspComponentResult}</div>
       )}
       <div className={classes.dspContent}>
         {dsp && <pre className={classes.dspPre}>{dsp}</pre>}

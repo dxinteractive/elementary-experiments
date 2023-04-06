@@ -1,33 +1,5 @@
 import React from "react";
 
-export type DspDefinitionCommon = {
-  id: string;
-  name: string;
-  description: string;
-};
-
-export type DspDefinitionLive = DspDefinitionCommon & {
-  type: "live";
-  dsp: string;
-};
-
-export type DspDefinitionOffline = DspDefinitionCommon & {
-  type: "offline";
-  dsp: string;
-  channels: number;
-  sampleRate: number;
-  input?: number[][];
-  inputFile?: string;
-  output?: string[];
-  outputLength?: number;
-  expect?: Record<string, number[][]>;
-};
-
-export type DspDefinitionComponent = DspDefinitionCommon & {
-  type: "component";
-  component: (liveAudioContext: AudioContext) => React.ReactElement;
-};
-
 export type RenderResultsOutput = {
   name: string;
   output: Float32Array[];
@@ -35,24 +7,14 @@ export type RenderResultsOutput = {
 
 export type RenderResults = (outputs: RenderResultsOutput[]) => void;
 
-export type DspDefinitionCallback = DspDefinitionCommon & {
-  type: "callback";
-  callback: (
-    audioContext: AudioContext,
-    renderResult: RenderResults
-  ) => Promise<() => void>;
+export type DspComponentProps = {
+  audioContext: AudioContext;
+  renderResults: RenderResults;
 };
 
-export type DspDefinition = DspDefinitionComponent | DspDefinitionCallback;
-
-export function isDspComponent(
-  dspDefinition: DspDefinition
-): dspDefinition is DspDefinitionComponent {
-  return dspDefinition.type === "component";
-}
-
-export function isDspCallback(
-  dspDefinition: DspDefinition
-): dspDefinition is DspDefinitionCallback {
-  return dspDefinition.type === "callback";
-}
+export type DspDefinition = {
+  id: string;
+  name: string;
+  description: string;
+  Component: React.FC<DspComponentProps>;
+};
