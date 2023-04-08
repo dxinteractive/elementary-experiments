@@ -17,7 +17,9 @@ import {
   useParams,
 } from "react-router-dom";
 import { DspDefinition } from "./types";
-import { startElementary } from "./elementary-web-renderer";
+import { core, coreState, startElementary } from "./elementary-web-renderer";
+import { useSnapshot } from "valtio";
+import { el } from "@elemaudio/core";
 
 const liveAudioContext = new AudioContext();
 touchStart(liveAudioContext);
@@ -39,22 +41,23 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
 );
 
 function Main() {
+  const { ready } = useSnapshot(coreState);
+  if (!ready) {
+    return <div className={classes.main}>loading elementary...</div>;
+  }
+
   return (
     <div className={classes.main}>
       <Outlet />
       <div className={classes.footer}>
-        <FooterLink href="https://faustdoc.grame.fr/manual/syntax/">
-          Faust syntax
+        <FooterLink href="https://www.elementary.audio/docs">
+          Elementary docs
         </FooterLink>
-        <FooterLink href="https://faustlibraries.grame.fr/">
-          Faust libraries
+        <FooterLink href="https://www.elementary.audio/docs/reference">
+          Elementary library
         </FooterLink>
-        <FooterLink href="https://faustide.grame.fr/">Faust IDE</FooterLink>
-        <FooterLink href="https://www.rebeltech.org/patch-library/patches/my-patches/">
-          OWL patches
-        </FooterLink>
-        <FooterLink href="https://www.openwarelab.org/Tools/firmware.html">
-          OWL Firmware
+        <FooterLink href="https://discord.com/channels/826071713426178078/834787928688689172">
+          Elementary discord
         </FooterLink>
       </div>
     </div>
@@ -71,6 +74,9 @@ function FooterLink(props: FooterLinkProps) {
 }
 
 function List() {
+  const silence = el.const({ value: 0 });
+  core.render(silence, silence);
+
   return (
     <>
       <ListHeader>
