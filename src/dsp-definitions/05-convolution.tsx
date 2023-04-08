@@ -71,6 +71,7 @@ function Component({ audioContext }: DspComponentProps) {
 const dspDefinition: DspDefinition = {
   id: "convolution",
   filename: "05-convolution.tsx",
+  oscope: true,
   name: "Convolution",
   description: "Passes a sound through different impulse responses",
   Component,

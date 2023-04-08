@@ -5,6 +5,7 @@ export const core = new WebRenderer();
 export const coreState = proxy({
   ready: false,
 });
+export let node: AudioNode | undefined;
 
 const OUTPUT_CHANNEL_COUNT = 2;
 
@@ -16,8 +17,9 @@ export async function startElementary(audioContext: AudioContext) {
     outputChannelCount: [OUTPUT_CHANNEL_COUNT],
   });
 
-  const [node] = await Promise.all([initialized, loaded]);
-  node.connect(audioContext.destination);
+  const [newNode] = await Promise.all([initialized, loaded]);
+  newNode.connect(audioContext.destination);
+  node = newNode;
   coreState.ready = true;
   return core;
 }

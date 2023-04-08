@@ -7,6 +7,7 @@ import { useEffect } from "react";
 const dspDefinition: DspDefinition = {
   id: "offline-render",
   filename: "04-offline-render.tsx",
+  oscope: false,
   name: "Offline render",
   description: "Offline renders a noise burst.",
   Component: ({ audioContext, renderResults }) => {

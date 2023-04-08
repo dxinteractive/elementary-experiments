@@ -10,6 +10,7 @@ const soundFiles = {
 const dspDefinition: DspDefinition = {
   id: "play-sample",
   filename: "02-play-sample.tsx",
+  oscope: true,
   name: "Play sample",
   description: "Generates and plays a sample once per second.",
   Component: () => {

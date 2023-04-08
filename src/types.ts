@@ -17,5 +17,6 @@ export type DspDefinition = {
   filename: string;
   name: string;
   description: string;
+  oscope: boolean;
   Component: React.FC<DspComponentProps>;
 };

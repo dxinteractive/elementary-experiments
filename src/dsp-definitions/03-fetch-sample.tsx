@@ -14,6 +14,7 @@ const HARP_SOUND_FILES = [
 const dspDefinition: DspDefinition = {
   id: "fetch-sample",
   filename: "03-fetch-sample.tsx",
+  oscope: true,
   name: "Fetch sample",
   description: "Fetches and plays a set of samples.",
   Component: ({ audioContext }) => {

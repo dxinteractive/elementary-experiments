@@ -17,9 +17,15 @@ import {
   useParams,
 } from "react-router-dom";
 import { DspDefinition } from "./types";
-import { core, coreState, startElementary } from "./elementary-web-renderer";
+import {
+  core,
+  coreState,
+  node,
+  startElementary,
+} from "./elementary-web-renderer";
 import { useSnapshot } from "valtio";
 import { el } from "@elemaudio/core";
+import { OscopePanel } from "./live-visualisations";
 
 const liveAudioContext = new AudioContext();
 touchStart(liveAudioContext);
@@ -130,7 +136,7 @@ type DspProps = {
 
 function Dsp(props: DspProps) {
   const { dspDefinition } = props;
-  const { name, description, filename, Component } = dspDefinition;
+  const { name, description, filename, oscope, Component } = dspDefinition;
 
   const [offlineResultToPlot, setOfflineResultToPlot] = useState<Output[]>([]);
   const renderResults = (results: Output[]) => {
@@ -162,6 +168,11 @@ function Dsp(props: DspProps) {
             height={200}
             liveAudioContext={liveAudioContext}
           />
+        </div>
+      )}
+      {oscope && node && (
+        <div className={classes.dspContent}>
+          <OscopePanel audioContext={liveAudioContext} source={node} />
         </div>
       )}
     </>
