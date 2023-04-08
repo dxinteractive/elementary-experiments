@@ -3,10 +3,7 @@ import type { DspComponentProps, DspDefinition } from "../types";
 import { el } from "@elemaudio/core";
 import { useFetchSoundFiles } from "../fetch";
 import { useState } from "react";
-import {
-  RenderElementary,
-  updateVirtualFileSystem,
-} from "../elementary-web-renderer";
+import { core, updateVirtualFileSystem } from "../elementary-web-renderer";
 
 const IMPULSE_RESPONSES = [
   "1gdsh6_small_speaker_ussr.wav",
@@ -50,24 +47,24 @@ function Component({ audioContext }: DspComponentProps) {
     drums
   );
 
+  const fx = selectedIR ? convolved : drums;
+  core.render(fx, fx);
+
   return (
-    <>
-      <RenderElementary node={selectedIR ? convolved : drums} />
-      <label>
-        impulse response{" "}
-        <select
-          value={selectedIR}
-          onChange={(e) => setSelectedIR(e.target.value)}
-        >
-          <option value="">none</option>
-          {IMPULSE_RESPONSES.map((ir) => (
-            <option key={ir} value={ir}>
-              {ir}
-            </option>
-          ))}
-        </select>
-      </label>
-    </>
+    <label>
+      impulse response{" "}
+      <select
+        value={selectedIR}
+        onChange={(e) => setSelectedIR(e.target.value)}
+      >
+        <option value="">none</option>
+        {IMPULSE_RESPONSES.map((ir) => (
+          <option key={ir} value={ir}>
+            {ir}
+          </option>
+        ))}
+      </select>
+    </label>
   );
 }
 

@@ -2,10 +2,7 @@ import type { DspDefinition } from "../types";
 
 import { el } from "@elemaudio/core";
 import { useFetchSoundFiles } from "../fetch";
-import {
-  RenderElementary,
-  updateVirtualFileSystem,
-} from "../elementary-web-renderer";
+import { core, updateVirtualFileSystem } from "../elementary-web-renderer";
 
 const HARP_SOUND_FILES = [
   "/audio/tonejs-instruments/harp/D4.wav",
@@ -46,8 +43,8 @@ const dspDefinition: DspDefinition = {
         1
       )
     );
-
-    return <RenderElementary node={harps} />;
+    core.render(harps, harps);
+    return null;
   },
 };
 

@@ -1,10 +1,7 @@
 import type { DspDefinition } from "../types";
 
 import { el } from "@elemaudio/core";
-import {
-  RenderElementary,
-  updateVirtualFileSystem,
-} from "../elementary-web-renderer";
+import { core, updateVirtualFileSystem } from "../elementary-web-renderer";
 
 const soundFiles = {
   "/beep.wav": new Float32Array(2048).map((_, i) => Math.sin(i / 10)),
@@ -16,11 +13,9 @@ const dspDefinition: DspDefinition = {
   description: "Generates and plays a sample once per second.",
   Component: () => {
     updateVirtualFileSystem(soundFiles);
-    return (
-      <RenderElementary
-        node={el.sample({ path: "/beep.wav" }, el.train(1), 1)}
-      />
-    );
+    const beep = el.sample({ path: "/beep.wav" }, el.train(1), 1);
+    core.render(beep, beep);
+    return null;
   },
 };
 

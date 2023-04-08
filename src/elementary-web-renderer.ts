@@ -1,16 +1,12 @@
-import { el, NodeRepr_t } from "@elemaudio/core";
 import WebRenderer from "@elemaudio/web-renderer";
-import { useEffect } from "react";
-import { proxy, useSnapshot } from "valtio";
+import { proxy } from "valtio";
 
-const core = new WebRenderer();
-const coreState = proxy({
+export const core = new WebRenderer();
+export const coreState = proxy({
   ready: false,
 });
 
 const OUTPUT_CHANNEL_COUNT = 2;
-
-const silence = el.const({ value: 0 });
 
 export async function startElementary(audioContext: AudioContext) {
   const loaded = new Promise((r) => core.on("load", r));
@@ -24,26 +20,6 @@ export async function startElementary(audioContext: AudioContext) {
   node.connect(audioContext.destination);
   coreState.ready = true;
   return core;
-}
-
-export type RenderElementaryProps = {
-  node: number | NodeRepr_t;
-};
-
-export function RenderElementary({ node }: RenderElementaryProps) {
-  const { ready } = useSnapshot(coreState);
-  useEffect(() => {
-    if (!ready) return;
-
-    console.log("rendering new node", node);
-    core.render(node, node);
-    return () => {
-      console.log("rendering silence");
-      core.render(silence, silence);
-    };
-  }, [node, updateVirtualFileSystem, ready]);
-
-  return null;
 }
 
 export type VirtualFileSystemObject = Record<
