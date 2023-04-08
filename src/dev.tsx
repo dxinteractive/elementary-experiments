@@ -130,10 +130,7 @@ type DspProps = {
 
 function Dsp(props: DspProps) {
   const { dspDefinition } = props;
-  const { name, description, Component } = dspDefinition;
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  const dsp = dspDefinition.dsp;
+  const { name, description, filename, Component } = dspDefinition;
 
   const [offlineResultToPlot, setOfflineResultToPlot] = useState<Output[]>([]);
   const renderResults = (results: Output[]) => {
@@ -141,11 +138,16 @@ function Dsp(props: DspProps) {
   };
 
   const { width } = useWindowSize();
+  const sourceUrl = `https://github.com/dxinteractive/elementary-experiments/blob/main/src/dsp-definitions/${filename}`;
 
   return (
     <>
       <DspHeader>
         <strong>{name}</strong> - {description}
+        <br />
+        <a className={classes.link} href={sourceUrl}>
+          source code
+        </a>
       </DspHeader>
       <Component
         audioContext={liveAudioContext}
@@ -162,9 +164,6 @@ function Dsp(props: DspProps) {
           />
         </div>
       )}
-      <div className={classes.dspContent}>
-        {dsp && <pre className={classes.dspPre}>{dsp}</pre>}
-      </div>
     </>
   );
 }

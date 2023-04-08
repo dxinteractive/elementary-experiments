@@ -5,6 +5,7 @@ import { core } from "../elementary-web-renderer";
 
 const dspDefinition: DspDefinition = {
   id: "sine-wave",
+  filename: "01-sine-wave.tsx",
   name: "Sine wave",
   description: "Does a 440Hz sine wave in one ear and 441Hs in the other.",
   Component: () => {
